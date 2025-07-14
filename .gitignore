@@ -3,3 +3,4 @@ src/
 README_files/
 pyproject.toml
 tests/
+coverage.xml
