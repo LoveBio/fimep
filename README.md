@@ -266,7 +266,8 @@ model_prediction("encoded_predictions_bacteria.csv", "final_predictions_bacteria
 
 ## Notes
 
-- Data used can be found [here](https://github.com/LoveBio/FIMEP.git)
+- Example data used can be found on
+  [GitHub](https://github.com/LoveBio/FIMEP)
 - Input files must be formatted using the provided formatting functions
   before merging or encoding.
 - Kingdom names are case-insensitive but should be valid options:
@@ -283,7 +284,7 @@ model_prediction("encoded_predictions_bacteria.csv", "final_predictions_bacteria
 ## Contact
 
 For issues, please open an issue on the [GitHub
-repository](https://github.com/LoveBio/Effector_prediction/).
+repository](https://github.com/LoveBio/FIMEP/issues).
 
 ------------------------------------------------------------------------
 
