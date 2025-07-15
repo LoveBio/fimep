@@ -1,8 +1,8 @@
 
-# FIMEP - For Integration of Multiple Effector Prediction
+# fimep
 
-FIMEP is an ensemble deep learning-based predictor package designed to
-predict effectors from individual kingdoms such as bacteria, fungi,
+**fimep** is an ensemble deep learning-based predictor package designed
+to predict effectors from individual kingdoms such as bacteria, fungi,
 oomycete, as well as all the kingdoms at the same time. It integrates
 outputs from kingdom-specific prediction programs and applies a deep
 learning model to make classification.
@@ -38,10 +38,10 @@ final predictions using a built-in deep learning model.
 
 ## Overview
 
-FIMEP is designed to streamline effector prediction by combining outputs
-from different kingdom-specific prediction tools, standardizing them
-into a consistent format, encoding predictions for model compatibility,
-and producing a final classification.
+**fimep** is designed to streamline effector prediction by combining
+outputs from different kingdom-specific prediction tools, standardizing
+them into a consistent format, encoding predictions for model
+compatibility, and producing a final classification.
 
 ### Features
 
@@ -66,7 +66,8 @@ The package handles multiple kingdoms:
 ## **Recommended but optional: use a virtual environment**
 
 To avoid conflicts with existing packages and ensure reproducibility, it
-is highly recommended to install FIMEP in a fresh virtual environment.
+is highly recommended to install **fimep** in a fresh virtual
+environment.
 
 ### Using conda
 
@@ -267,7 +268,7 @@ model_prediction("encoded_predictions_bacteria.csv", "final_predictions_bacteria
 ## Notes
 
 - Example data used can be found on
-  [GitHub](https://github.com/LoveBio/FIMEP)
+  [GitHub](https://github.com/LoveBio/fimep)
 - Input files must be formatted using the provided formatting functions
   before merging or encoding.
 - Kingdom names are case-insensitive but should be valid options:
@@ -284,7 +285,7 @@ model_prediction("encoded_predictions_bacteria.csv", "final_predictions_bacteria
 ## Contact
 
 For issues, please open an issue on the [GitHub
-repository](https://github.com/LoveBio/FIMEP/issues).
+repository](https://github.com/LoveBio/fimep/issues).
 
 ------------------------------------------------------------------------
 
