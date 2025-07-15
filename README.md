@@ -1,95 +1,27 @@
-
-# fimep
-
-**fimep** is an ensemble deep learning-based predictor package designed
-to predict effectors from individual kingdoms such as bacteria, fungi,
-oomycete, as well as all the kingdoms at the same time. It integrates
-outputs from kingdom-specific prediction programs and applies a deep
-learning model to make classification.
-
-This package processes outputs from kingdom-specific prediction
-programs, formats them, merges results, performs encoding, and generates
-final predictions using a built-in deep learning model.
+fimep
+================
 
 ------------------------------------------------------------------------
 
-## Table of Contents
-
-- [Overview](#overview)
-  - [Features](#features)
-- [Recommended but optional: use a virtual
-  Environment](#recommended-but-optional:-use-a-virtual-environment)
-  - [Using Conda](#using-conda)
-  - [Using venv (Standard Python)](#Using-venv-(standard-python))
-- [Installation](#installation)  
-- [Usage](#usage)
-  - [Formatting results from different prediction
-    programs](#Formatting-results-from-different-prediction-programs)  
-  - [Merging results](#merging-results)  
-  - [Encoding and scaling](#encoding-and-scaling)  
-  - [Making predictions](#making-predictions)  
-- [Function reference](#function-reference)  
-- [Examples](#examples)  
-- [Note](#note)
-- [Contact](#contact)
-- [License](#license)
-
-------------------------------------------------------------------------
-
-## Overview
-
-**fimep** is designed to streamline effector prediction by combining
-outputs from different kingdom-specific prediction tools, standardizing
-them into a consistent format, encoding predictions for model
-compatibility, and producing a final classification.
-
-### Features
-
-- Format raw outputs from different effector prediction tools into a
-  uniform structure.
-- Merge multiple formatted prediction results by identifier.
-- One-hot encode and reorder merged predictions for compatibility with
-  the deep learning model.
-- Run deep learning model predictions built into the package.
-
-The package handles multiple kingdoms:
-
-| Kingdom | Programs Supported | Required Columns for Encoding |
-|----|----|----|
-| bacteria | Deepredeff, EffectiveT3, T3SEpp | `Deepredeff`, `EffectiveT3`, `T3SEpp` |
-| fungi | EffectorP, Deepredeff, WideEffHunter | `EffectorP`, `Deepredeff`, `WideEffHunter` |
-| oomycete | EffectorP, Deepredeff, WideEffHunter, EffectorO | `EffectorP`, `Deepredeff`, `WideEffHunter`, `EffectorO` |
-| all | All programs | `EffectorP`, `EffectiveT3`, `EffectorO`, `Deepredeff`, `WideEffHunter`, `T3SEpp` |
-
-------------------------------------------------------------------------
-
-## **Recommended but optional: use a virtual environment**
-
-To avoid conflicts with existing packages and ensure reproducibility, it
-is highly recommended to install **fimep** in a fresh virtual
-environment.
-
-### Using conda
-
-``` python
-# Create a conda environment
-conda create -n fimep_env python=3.11  
-conda activate fimep_env                
-```
-
-### Using venv (Standard Python)
-
-``` python
-# Create a python environment
-python -m venv fimep_env   
-source fimep_env/bin/activate  \# On Windows: fimep_env\Scripts\activate
-```
+**fimep** is a command-line interface (CLI) package that leverages a
+deep learning model to predict effectors from individual kingdoms—such
+as bacteria, fungi, and oomycetes—or across all kingdoms simultaneously.
+It works by integrating the outputs of kingdom-specific effector
+prediction programs and using these combined features to perform
+classification.
 
 ------------------------------------------------------------------------
 
 ## Installation
 
-Install the package via pip using:
+**Optional use of a virtual environment**
+
+User can create a virtual environment using
+[mamba](https://mamba.readthedocs.io/en/latest/user_guide/mamba.html) or
+[python venv](https://docs.python.org/3/library/venv.html) before
+installing **fimep**.
+
+To use fimep, install it from [PyPI](https://pypi.org/) using:
 
 ``` bash
 pip install fimep
@@ -99,186 +31,115 @@ pip install fimep
 
 ## Usage
 
-### Formatting results from different prediction programs
-
-Convert raw outputs from various effector prediction tools into a
-consistent CSV format. Use the formatting functions under the
-`preprocessing` module.
-
-**Example for EffectorP (fungi):**
-
-``` python
-
-from fimep.preprocessing import format_effectorp_result
-
-formatted_df = format_effectorp_result(
-input_file="data/program_output/effectorp_output.txt",
-kingdom="fungi",
-output_file="data/formatted/effectorp_fungi.csv"
-)
+``` bash
+fimep <subcommand> [options]
 ```
 
-**Similarly, use:**
+#### Available subcommands:
 
-- `format_effectiveT3_result()` for EffectiveT3 (bacteria)
-- `format_deepredeff_result()` for Deepredeff (oomycete, bacteria, or
-  fungi)
-- `format_WideEffHunter_result()` for WideEffHunter (fungi or oomycete)
-- `format_T3SEpp_result()` for T3SEpp (bacteria)
-- `format_effectoro_result()` for EffectorO (oomycete)
-- `format_effectorp_result()` for EffectorP (fungi or oomycete)
+| Command | Description |
+|----|----|
+| `merge_predictions` | Merge formatted prediction results into one CSV |
+| `encode_predictions` | Encode predictions into model input format |
+| `predict` | Run the trained deep learning model on encoded input |
+| `preprocess_effectorp` | Format raw EffectorP output into standard structure |
+| `preprocess_effectiveT3` | Format raw EffectiveT3 output |
+| `preprocess_effectoro` | Format raw EffectorO output |
+| `preprocess_deepredeff` | Format raw Deepredeff output |
+| `preprocess_wideeffhunter` | Format WideEffHunter predictions from FASTA files |
+| `preprocess_t3sepp` | Format T3SEpp output |
+
+#### Required options
+
+- `input` - Input file path (for most commands)
+- `output` - Output file path
+- `--kingdom` - Biological kingdom (fungi/bacteria/oomycete)
+
+#### Special cases
+
+- **WideEffHunter**: Requires both `complete` and `predicted` input
+  files
+- **Merge**: Accepts multiple input files followed by output file
+
+#### Required programs per kingdom:
+
+| Kingdom  | Programs required                               |
+|----------|-------------------------------------------------|
+| bacteria | Deepredeff, EffectiveT3, T3SEpp                 |
+| fungi    | EffectorP, Deepredeff, WideEffHunter            |
+| oomycete | EffectorP, Deepredeff, WideEffHunter, EffectorO |
 
 ------------------------------------------------------------------------
 
-### Merging results
+#### Workflow example
 
-Combine multiple formatted prediction result files (from different
-programs) by their Identifier column into a single dataframe, where each
-program’s predictions become separate columns.
+**fimep** provides several subcommands for different stages of the
+prediction pipeline:
 
-Use the function merge_predictions_by_identifier() to combine formatted
-dataframes. This merges predictions by Identifier and adds columns named
-after each program’s prediction.
+##### 1. Preprocessing commands
 
-``` python
-from fimep.preprocessing import merge_predictions_by_identifier
-import pandas as pd
+Process raw outputs from various effector prediction programs:
 
-# Load formatted CSV files into dataframes
-dfs = [
-    pd.read_csv("data/formatted/effectorp_fungi.csv"),
-    pd.read_csv("data/formatted/effectivet3_bacteria.csv"),
-    pd.read_csv("data/formatted/deepredeff_oomycete.csv"),
-    pd.read_csv("data/formatted/wideeffhunter_fungi.csv"),
-    pd.read_csv("data/formatted/t3sepp_bacteria.csv"),
-    pd.read_csv("data/formatted/effectoro_oomycete.csv")
-]
+###### EffectorP
 
-merged_df = merge_predictions_by_identifier(dfs, output_file="merged/merged_predictions.csv")
-
-print(merged_df.head())
+``` bash
+fimep preprocess_effectorp --input input.txt output.csv --kingdom fungi
 ```
 
-**This function:**
+###### EffectiveT3
 
-- Checks for required columns (`Identifier`, `Prediction`, `Program`) in
-  each dataframe.
-- Renames the `Prediction` column to the program name.
-- Merges all data on `Identifier` using an outer join.
-- Optionally saves the merged dataframe to a CSV.
-
-------------------------------------------------------------------------
-
-### Encoding and scaling
-
-Prepare the merged data for the deep learning model using
-`encode_scale_predictions()`.
-
-**This function:**
-
-- Validates the kingdom and required prediction columns.
-- One-hot encodes the prediction columns.
-- Adds missing columns needed by the model with zeros.
-- Orders columns as expected by the model.
-- Saves and returns the encoded dataframe.
-
-``` python
-from fimep.preprocessing import encode_scale_predictions
-
-encoded_df = encode_scale_predictions(
-    input_file="data/merged/merged_predictions.csv",
-    output_file="data/encoded/encoded_predictions.csv",
-    kingdom="all"
-)
+``` bash
+fimep preprocess_effectiveT3 --input input.csv --output output.csv --kingdom bacteria
 ```
 
-### Making predictions
+###### EffectorO
 
-Make final effector predictions using the built-in deep learning model
-embedded within the package.
-
-Run the deep learning model using the encoded data:
-
-``` python
-from fimep.prediction import model_prediction
-
-model_prediction(
-    input_file="data/encoded/encoded_predictions.csv",
-    output_file="data/fimep_prediction/final_predictions.csv"
-)
+``` bash
+fimep preprocess_effectoro --input input.csv --output output.csv --kingdom oomycete
 ```
 
-input_file: Path to encoded and scaled CSV formatted by
-encode_scale_predictions.
+###### Deepredeff
 
-output_file: Path to save final predictions. Output includes Identifier
-and predicted label (Effector or Non-Effector).
-
-------------------------------------------------------------------------
-
-## Function reference
-
-| Function | Purpose | When to Use |
-|----|----|----|
-| `format_effectorp_result` | Format EffectorP raw output | After running EffectorP tool |
-| `format_effectiveT3_result` | Format EffectiveT3 raw output | After running EffectiveT3 tool |
-| `format_deepredeff_result` | Format Deepredeff raw output | After running Deepredeff tool |
-| `format_WideEffHunter_result` | Format WideEffHunter predictions from fasta | After WideEffHunter predictions |
-| `format_T3SEpp_result` | Format T3SEpp raw output | After running T3SEpp tool |
-| `merge_predictions_by_identifier` | Merge formatted dataframes by Identifier | After formatting all tools’ outputs |
-| `encode_scale_predictions` | One-hot encode and reorder merged predictions | Before running model prediction |
-| `model_prediction` | Run the ensemble deep learning model | After encoding predictions |
-
-------------------------------------------------------------------------
-
-## Examples
-
-``` python
-# 1. Import functions from the fimep package
-from fimep.preprocessing import (
-    format_effectiveT3_result,
-    format_deepredeff_result,
-    format_T3SEpp_result,
-    merge_predictions_by_identifier,
-)
-from fimep.encode import encode_scale_predictions
-from fimep.prediction import model_prediction
-
-# 2. Format the output from each prediction program (bacteria)
-df_effectiveT3 = format_effectiveT3_result("effectiveT3_results.csv", kingdom="bacteria")
-df_deepredeff = format_deepredeff_result("deepredeff_results.csv", output_file=None, kingdom="bacteria")
-df_t3sepp = format_T3SEpp_result("t3sepp_results.csv", kingdom="bacteria")
-
-# 3. Merge formatted predictions by Identifier
-merged_df = merge_predictions_by_identifier([
-    df_effectiveT3,
-    df_deepredeff,
-    df_t3sepp
-], output_file="merged_predictions_bacteria.csv")
-
-# 4. Encode the merged data
-encoded_df = encode_scale_predictions("merged_predictions_bacteria.csv", "encoded_predictions_bacteria.csv", kingdom="bacteria")
-
-# 5. Run final prediction using the deep learning model
-model_prediction("encoded_predictions_bacteria.csv", "final_predictions_bacteria.csv")
+``` bash
+fimep preprocess_deepredeff --input input.csv --output output.csv --kingdom fungi
 ```
 
-------------------------------------------------------------------------
+###### WideEffHunter
 
-## Notes
+``` bash
+fimep preprocess_wideeffhunter --input complete_seq_file.fasta predicted_wideeffhunter_output.fasta --output output.csv --kingdom oomycete
+```
 
-- Example data used can be found on
-  [GitHub](https://github.com/LoveBio/fimep)
-- Input files must be formatted using the provided formatting functions
-  before merging or encoding.
-- Kingdom names are case-insensitive but should be valid options:
-  `"bacteria"`, `"fungi"`, `"oomycete"`, `"all"`.
-- The deep learning model is built into the package; users don’t need to
-  provide or load it separately.
-- Extra columns required by the model but missing from the data are
-  added during encoding to maintain compatibility. Only ensure you have
-  used the right programs, the function will adjust the data to suit the
-  model.
+###### T3SEpp
+
+``` bash
+fimep preprocess_t3sepp --input input.txt --output output.csv --kingdom bacteria
+```
+
+##### 2. Merge predictions
+
+Combine multiple prediction files into a single dataset:
+
+``` bash
+fimep merge_prediction --input file1.csv file2.csv file3.csv --output merged_output.csv
+```
+
+##### 3. Encode merged data
+
+Encode and scale the merged predictions for model input:
+
+``` bash
+fimep encode --input merged_data.csv --output encoded_output.csv --kingdom fungi
+```
+
+##### 4. Final prediction
+
+Run the final prediction model:
+
+``` bash
+
+fimep predict --input encoded_input.csv --output final_predictions.csv
+```
 
 ------------------------------------------------------------------------
 
