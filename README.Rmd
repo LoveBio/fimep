@@ -60,13 +60,13 @@ fimep <subcommand> [options]
 
 
 #### Required options
-- `input` - Input file path (for most commands)
+- `input` - Input file path
 - `output` - Output file path
-- `--kingdom` - Biological kingdom (fungi/bacteria/oomycete)
+- `--kingdom` -  fungi, oomycete or bacteria
 
 
 #### Special cases
-- **WideEffHunter**: Requires both `complete` and `predicted` input files
+- **WideEffHunter**: Requires both `complete` and `predicted` input files from WideEffHunter program
 - **Merge**: Accepts multiple input files followed by output file
 
 
@@ -82,7 +82,7 @@ fimep <subcommand> [options]
 
 
 
-#### Workflow example
+## Workflow example
 
 
 **fimep** provides several subcommands for different stages of the prediction pipeline:
@@ -94,40 +94,40 @@ Process raw outputs from various effector prediction programs:
 
 ###### EffectorP
 ```bash
-fimep preprocess_effectorp --input input.txt output.csv --kingdom fungi
+fimep preprocess_effectorp --input effectorp_result.txt --output formatted_ep_output.csv --kingdom fungi
 ```
 
 ###### EffectiveT3
 ```bash
-fimep preprocess_effectiveT3 --input input.csv --output output.csv --kingdom bacteria
+fimep preprocess_effectiveT3 --input effectiveT3_result.csv --output formatted_et3_output.csv --kingdom bacteria
 ```
 
 ###### EffectorO 
 ```bash
-fimep preprocess_effectoro --input input.csv --output output.csv --kingdom oomycete
+fimep preprocess_effectoro --input effectoro_result.csv --output formatted_eo_output.csv --kingdom oomycete
 ```
 
 ###### Deepredeff 
 ```bash
-fimep preprocess_deepredeff --input input.csv --output output.csv --kingdom fungi
+fimep preprocess_deepredeff --input deepredeff_result.csv --output formatted_dr_output.csv --kingdom fungi
 ```
 
 ###### WideEffHunter 
 ```bash
-fimep preprocess_wideeffhunter --input complete_seq_file.fasta predicted_wideeffhunter_output.fasta --output output.csv --kingdom oomycete
+fimep preprocess_wideeffhunter --input complete_seq_file.fasta predicted_wideeffhunter_output.fasta --output formatted_we_output.csv --kingdom oomycete
 ```
 
 ###### T3SEpp 
 ```bash
-fimep preprocess_t3sepp --input input.txt --output output.csv --kingdom bacteria
+fimep preprocess_t3sepp --input t3sepp_result.txt --output formatted_t3p_output.csv --kingdom bacteria
 ```
 
 ##### 2. Merge predictions
 
-Combine multiple prediction files into a single dataset:
+Combine multiple prediction files for fungal pathogens into a single dataset:
 
 ```bash
-fimep merge_prediction --input file1.csv file2.csv file3.csv --output merged_output.csv
+fimep merge_prediction --input formatted_dr_output.csv formatted_et3_output.csv formatted_t3p_output.csv --output merged_data.csv
 ```
 
 ##### 3. Encode merged data
