@@ -46,8 +46,7 @@ installing **fimep**.
 
 ### Single workflow usage
 
-Users should type in each line into the command line as copying and
-pasting directly might cause error.
+It is best practice to type in each command into the terminal directly.
 
 #### Note
 

@@ -59,7 +59,7 @@ Optional: users can create a virtual environment using [mamba](https://mamba.rea
 
 ### Single workflow usage
 
-Users should type in each line into the command line as copying and pasting directly might cause error. 
+It is best practice to type in each command into the terminal directly. 
 
 #### Note
 - **WideEffHunter**: Requires the `complete` input file and `predicted` output file from WideEffHunter program.
