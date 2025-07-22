@@ -200,8 +200,8 @@ Example:
 ## Contact
 
 For issues, questions or contributions, please open an issue on the
-[GitHub repository](https://github.com/LoveBio/fimep/issues) or reach
-out via [mail](mailto:lovekayode1@gmail.com).
+[GitHub repository](https://github.com/LoveBio/fimep/issues) or contact
+us via [email](mailto:lovekayode1@gmail.com).
 
 ------------------------------------------------------------------------
 
