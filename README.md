@@ -49,6 +49,11 @@ installing **fimep**.
 Users should type in each line into the command line as copying and
 pasting directly might cause error.
 
+#### Note
+
+- **WideEffHunter**: Requires the `complete` input file and `predicted`
+  output file from WideEffHunter program.
+
 #### For fungi
 
 ``` bash
@@ -117,8 +122,8 @@ fimep <subcommand> [options]
 
 #### Special cases
 
-- **WideEffHunter**: Requires both `complete` and `predicted` input
-  files from WideEffHunter program
+- **WideEffHunter**: Requires the `complete` input files and `predicted`
+  output file from WideEffHunter program.
 - **Merge**: Accepts multiple input files followed by output file
 
 ##### 1. Preprocess individual tool outputs
