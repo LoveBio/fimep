@@ -5,3 +5,4 @@ pyproject.toml
 tests/
 coverage.xml
 data/
+.Rhistory
