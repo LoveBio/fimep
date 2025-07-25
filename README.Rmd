@@ -14,7 +14,7 @@ ggplot2::theme_set(ggplot2::theme_bw())
 
 
 
-**fimep** is a Python package with a command-line interface (CLI) that leverages a deep learning model to predict effectors. it integrates predictions from multiple effector prediction programs to provide improved accuracy in identifying pathogen effector proteins. The package supports predictions for fungi, bacteria, oomycete, and can handle all kingdoms simultaneously.
+**fimep** is a Python package with a command-line interface (CLI) that leverages a deep learning model to predict effectors. It integrates predictions from multiple effector prediction programs to provide improved accuracy in identifying pathogen effector proteins. The package supports predictions for fungi, bacteria, oomycete, and can handle all kingdoms simultaneously.
 
 
 ------------------------------------------------------------------------
@@ -42,7 +42,7 @@ Optional: users can create a virtual environment using [mamba](https://mamba.rea
 | **Fungi** | EffectorP-3.0, deepredeff, WideEffHunter |
 | **Bacteria** | deepredeff, EffectiveT3, T3SEpp |
 | **Oomycete** | EffectorP-3.0, deepredeff, WideEffHunter, EffectorO |
-| **All** | All tools above |
+| **All** | EffectorP-3.0, deepredeff, WideEffHunter, EffectorO, EffectiveT3, T3SEpp  |
 
 
 

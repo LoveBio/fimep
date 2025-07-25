@@ -2,7 +2,7 @@ fimep
 ================
 
 **fimep** is a Python package with a command-line interface (CLI) that
-leverages a deep learning model to predict effectors. it integrates
+leverages a deep learning model to predict effectors. It integrates
 predictions from multiple effector prediction programs to provide
 improved accuracy in identifying pathogen effector proteins. The package
 supports predictions for fungi, bacteria, oomycete, and can handle all
@@ -27,12 +27,12 @@ installing **fimep**.
 
 ## Supported tools and kingdoms
 
-| Kingdom      | Supported tools                                     |
-|--------------|-----------------------------------------------------|
-| **Fungi**    | EffectorP-3.0, deepredeff, WideEffHunter            |
-| **Bacteria** | deepredeff, EffectiveT3, T3SEpp                     |
+| Kingdom | Supported tools |
+|----|----|
+| **Fungi** | EffectorP-3.0, deepredeff, WideEffHunter |
+| **Bacteria** | deepredeff, EffectiveT3, T3SEpp |
 | **Oomycete** | EffectorP-3.0, deepredeff, WideEffHunter, EffectorO |
-| **All**      | All tools above                                     |
+| **All** | EffectorP-3.0, deepredeff, WideEffHunter, EffectorO, EffectiveT3, T3SEpp |
 
 ------------------------------------------------------------------------
 
