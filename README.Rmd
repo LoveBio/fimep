@@ -36,13 +36,15 @@ Optional: users can create a virtual environment using [mamba](https://mamba.rea
 
 
 ## Supported tools and kingdoms
+To run predictions with **fimep**, user must first generate outputs using the supported effector prediction programs listed below. Each program name links to its respective repository or documentation. 
+
 
 | Kingdom | Supported tools |
 |---------|----------------|
-| **Fungi** | EffectorP-3.0, deepredeff, WideEffHunter |
-| **Bacteria** | deepredeff, EffectiveT3, T3SEpp |
-| **Oomycete** | EffectorP-3.0, deepredeff, WideEffHunter, EffectorO |
-| **All** | EffectorP-3.0, deepredeff, WideEffHunter, EffectorO, EffectiveT3, T3SEpp  |
+| **Fungi** | [EffectorP-3.0](https://github.com/JanaSperschneider/EffectorP-3.0), [deepredeff](https://ruthkr.github.io/deepredeff/), [WideEffHunter](https://github.com/Gisel-Carreon/WideEffHunter_1.0) |
+| **Bacteria** | [deepredeff](https://ruthkr.github.io/deepredeff/), [EffectiveT3](https://galaxy.lisc.univie.ac.at/?tool_id=effectivet3&version=latest), [T3SEpp](http://61.160.194.165:3080/T3SEpp/) |
+| **Oomycete** | [EffectorP-3.0](https://github.com/JanaSperschneider/EffectorP-3.0), [deepredeff](https://ruthkr.github.io/deepredeff/), [WideEffHunter](https://github.com/Gisel-Carreon/WideEffHunter_1.0), [EffectorO](https://github.com/mjnur/oomycete-effector-prediction) |
+| **All** | [EffectorP-3.0](https://github.com/JanaSperschneider/EffectorP-3.0), [deepredeff](https://ruthkr.github.io/deepredeff/), [WideEffHunter](https://github.com/Gisel-Carreon/WideEffHunter_1.0), [EffectorO](https://github.com/mjnur/oomycete-effector-prediction), [EffectiveT3](https://galaxy.lisc.univie.ac.at/?tool_id=effectivet3&version=latest), [T3SEpp](http://61.160.194.165:3080/T3SEpp/)  |
 
 
 
@@ -53,7 +55,7 @@ Optional: users can create a virtual environment using [mamba](https://mamba.rea
 
 **fimep** can be used in two ways:
 
-1. **Single workflow** (`runall`): Complete analysis from raw tool outputs to final predictions
+1. **Single workflow** (`runall`): Complete analysis from raw program outputs to final predictions
 2. **Step-by-step**: Individual steps for more control over the process
 
 
@@ -109,16 +111,15 @@ fimep <subcommand> [options]
 
 | Command                        | Description                                           |
 |--------------------------------|-------------------------------------------------------|
-| `merge_predictions`            | Merge formatted prediction results into one CSV       |
-| `encode_predictions`           | Encode predictions into model input format            |
-| `predict`                      | Run the trained deep learning model on encoded input  |
-| `preprocess_effectorp`         | Format raw EffectorP output into standard structure   |
+| `preprocess_effectorp`         | Format raw EffectorP-3.0 output into standard structure   |
 | `preprocess_effectiveT3`       | Format raw EffectiveT3 output                         |
 | `preprocess_effectoro`         | Format raw EffectorO output                           |
 | `preprocess_deepredeff`        | Format raw deepredeff output                          |
 | `preprocess_wideeffhunter`     | Format WideEffHunter predictions from FASTA files     |
 | `preprocess_t3sepp`            | Format T3SEpp output                                  |
-
+| `merge_predictions`            | Merge formatted prediction results into one CSV       |
+| `encode_predictions`           | Encode predictions into model input format            |
+| `predict`                      | Run the trained deep learning model on encoded input  |
 
 
 #### Required options
@@ -136,13 +137,13 @@ fimep <subcommand> [options]
 
 
 
-##### 1. Preprocess individual tool outputs
+###### 1. Preprocess individual tool outputs
 
 Process raw outputs from various effector prediction programs:
 
 
 ```bash
-# Format EffectorP results
+# Format EffectorP-3.0 results
 fimep preprocess_effectorp --input effectorp_result.txt --output formatted_ep_output.csv --kingdom fungi
 
 
@@ -168,7 +169,7 @@ fimep preprocess_effectoro --input effectoro_result.csv --output formatted_eo_ou
 
 ```
 
-##### 2. Merge formatted predictions
+###### 2. Merge formatted predictions
 
 Combine multiple prediction files for fungal pathogens into a single dataset:
 
@@ -176,7 +177,7 @@ Combine multiple prediction files for fungal pathogens into a single dataset:
 fimep merge_prediction --input formatted_dr_output.csv formatted_et3_output.csv formatted_t3p_output.csv --output merged_data.csv
 ```
 
-##### 3. Encode merged data
+###### 3. Encode merged data
 
 Encode and scale the merged predictions for model input:
 
@@ -184,7 +185,7 @@ Encode and scale the merged predictions for model input:
 fimep encode --input merged_data.csv --output encoded_output.csv --kingdom fungi
 ```
 
-##### 4. Generate final prediction
+###### 4. Generate final prediction
 
 
 ```bash
