@@ -151,7 +151,7 @@ fimep preprocess_t3sepp --input t3sepp_result.txt --output formatted_t3p_output.
 
 
 # Format EffectiveT3 results (bacteria only)
-fimep preprocess_effectiveT3 --input effectiveT3_result.csv --output formatted_et3_output.csv --kingdom bacteria
+fimep preprocess_effectivet3 --input effectiveT3_result.csv --output formatted_et3_output.csv --kingdom bacteria
 
 
 # Format EffectorO results (oomycete only)
@@ -198,6 +198,11 @@ Example:
 | seq1       | Effector     |
 | seq2       | Non-Effector |
 | seq3       | Effector     |
+
+## Documenation
+
+1.  [Extract predicted effectors as a fasta file for other downstream
+    analysis](https://github.com/LoveBio/fimep/blob/master/Extract-effectors.md)
 
 ------------------------------------------------------------------------
 
