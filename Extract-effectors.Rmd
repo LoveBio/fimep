@@ -12,6 +12,15 @@ knitr::opts_chunk$set(
 ggplot2::theme_set(ggplot2::theme_bw())
 ```
 
+This document provides two alternative functions (one in R and one in Python) for extracting fimep-predicted effector sequences directly from the raw FASTA file. You can choose whichever language best fits your workflow, as both functions achieve the same result.
+The function:
+
+- Filters the fimep prediction results to identify sequences labeled as "Effector."
+
+- Matches the effector identifiers to the corresponding sequences in the raw FASTA file.
+
+- Writes the matched sequences to a new FASTA file.
+
 
 
 ### Python function
@@ -92,6 +101,17 @@ extract_effectors <- function(fimep_output, raw_fasta_sequence, output_fasta_fil
 
 
 **Usage**
+
+Run either the R or Python function in this document.
+
+Provide three inputs:
+
+  - fimep_output → The CSV file containing fimep prediction results.
+
+  - raw_fasta_sequence → The original FASTA file containing protein sequences.
+
+  - output_fasta_file → The desired filename for the extracted effector sequences.
+
 
 ```{r, eval=FALSE}
 extract_effectors(
