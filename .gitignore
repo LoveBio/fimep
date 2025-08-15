@@ -6,3 +6,4 @@ tests/
 coverage.xml
 data/
 .Rhistory
+Extract-effectors.Rmd
