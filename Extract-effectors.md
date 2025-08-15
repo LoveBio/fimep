@@ -1,0 +1,80 @@
+Extract fimep predicted effectors
+================
+
+### Python function
+
+``` python
+from Bio import SeqIO
+import pandas as pd
+
+def extract_effectors(fimep_output, raw_fasta_sequence, output_fasta_file):      
+    df = pd.read_csv(fimep_output) # Read the fimep output_file
+
+    effector_df = df[(df["Pred_Label"] == "Effector")] # select the rows that are effectors
+
+    effector_id = set(effector_df["Identifier"]) # Select the identifier - using set to create a unique set of identifiers
+
+    print(len(effector_id)) # Prints the length of the id for confirmation
+
+    matched_sequences = [] # Create an empty list
+
+    # Use for loop to select records that match the effector_id of iterest
+    for seq_record in SeqIO.parse(raw_fasta_sequence, "fasta"):
+            if seq_record.id in effector_id:
+                matched_sequences.append(seq_record)
+
+    SeqIO.write(matched_sequences, output_fasta_file, "fasta") # Write the sequences a fasta file.
+    
+    print(f"Successfully created {output_fasta_file}")
+```
+
+------------------------------------------------------------------------
+
+### R function
+
+``` r
+library(Biostrings)
+library(readr)
+library(dplyr)
+library(stringr)
+
+extract_effectors <- function(fimep_output, raw_fasta_sequence, output_fasta_file) {
+  # Read CSV
+  df <- read_csv(fimep_output, show_col_types = FALSE)
+
+  # Filter effectors and get the unique identifiers
+  effectors_ids <- df %>% filter(Pred_Label == "Effector") %>% distinct(Identifier) %>% pull(Identifier)
+  
+  # Confirm the number of unique effector IDs
+  cat("Number of unique effector IDs:", length(effectors_ids), "\n")
+  
+  # Read the fasta sequences 
+  fasta_seqs <- readAAStringSet(raw_fasta_sequence)
+  
+  # Extract the first word from the sequence because the outputs from fimep uses the first word from the sequence ID.
+  fasta_first_word <- word(names(fasta_seqs), 1)
+  
+  # Keep the sequences that match effector_ids
+  
+  matched_seqs <- fasta_seqs[fasta_first_word %in% effectors_ids]
+  
+  
+  # Write the result as a fasta file
+  writeXStringSet(matched_seqs, filepath = output_fasta_file)
+  
+  cat("Successfully created", output_fasta_file, "\n")
+  
+}
+```
+
+------------------------------------------------------------------------
+
+**Usage**
+
+``` r
+extract_effectors(
+  fimep_output = "canu_fimep_prediction.csv",
+  raw_fasta_sequence = "canu_proteins.fasta",
+  output_fasta_file = "canu_effectors.fasta"
+)
+```
